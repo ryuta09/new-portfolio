@@ -35,15 +35,13 @@ export default function MailForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={() => {
-          form.handleSubmit(onSubmit);
-        }}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="container flex flex-col gap-3 mx-auto"
       >
         <FormField
           control={form.control}
           name="username"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>ユーザー名</FormLabel>
               <FormControl>
@@ -57,7 +55,7 @@ export default function MailForm() {
         <FormField
           control={form.control}
           name="email"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
@@ -70,7 +68,7 @@ export default function MailForm() {
         <FormField
           control={form.control}
           name="subject"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>主題</FormLabel>
               <FormControl>
@@ -83,11 +81,15 @@ export default function MailForm() {
         <FormField
           control={form.control}
           name="content"
-          render={(field) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>本文</FormLabel>
               <FormControl>
-                <Textarea placeholder="本文" {...field} className="min-h-[200px]"/>
+                <Textarea
+                  placeholder="本文"
+                  {...field}
+                  className="min-h-[200px]"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
