@@ -11,11 +11,13 @@ export default function useMailForm() {
       subject: "",
       email: "",
       content: "",
+      file: undefined,
     },
   });
 
   const onSubmit = useCallback(async (values: any) => {
-    const { username, email, subject, content } = values;
+    const { username, email, subject, content, file } = values;
+    console.log(username, email, subject, content, file);
     try {
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
         method: "POST",
