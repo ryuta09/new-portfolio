@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST() {
   try {
-    const {} = await resend.emails.send({
+    const {data, error} = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: ["gako0918@gmail.com"],
       subject: "Form開発の相談",
@@ -16,6 +16,7 @@ export async function POST() {
         content: "Form開発の相談です",
       }) as React.ReactElement,
     });
+  return NextResponse.json({data})
   } catch (error) {
     return NextResponse.json({ error });
   }
