@@ -17,12 +17,18 @@ export default function useMailForm() {
 
   const onSubmit = useCallback(async (values: any) => {
     const { username, email, subject, content, file } = values;
-    console.log(username, email, subject, content, file);
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("subject", subject);
+    formData.append("content", content);
+    formData.append("file", file[0]);
+
     try {
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, subject, content }),
+        body: formData,
       });
     } catch (error) {
       console.error(error);
