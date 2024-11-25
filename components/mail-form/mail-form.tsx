@@ -17,8 +17,7 @@ import { Textarea } from "../ui/textarea";
 import useMailForm from "@/hooks/useMailForm";
 
 export default function MailForm() {
-
-  const {form, onSubmit} = useMailForm()
+  const { form, onSubmit } = useMailForm();
 
   return (
     <Form {...form}>
@@ -78,6 +77,19 @@ export default function MailForm() {
                   {...field}
                   className="min-h-[200px]"
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>添付画像</FormLabel>
+              <FormControl>
+                <Input accept="image/*" type="file" placeholder="主題" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
