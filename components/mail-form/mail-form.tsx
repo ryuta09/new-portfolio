@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { ClipLoader } from "react-spinners";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
@@ -101,7 +102,7 @@ export default function MailForm() {
             </FormItem>
           )}
         />
-        <Button>送信</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <ClipLoader /> : "送信" }</Button>
       </form>
     </Form>
   );
