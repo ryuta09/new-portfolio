@@ -16,12 +16,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "@/lib/formSchema";
 import { Textarea } from "../ui/textarea";
 import useMailForm from "@/hooks/useMailForm";
-
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from "react";
+import 'react-toastify/dist/ReactToastify.css';
 export default function MailForm() {
   const { form, onSubmit } = useMailForm();
 
+  useEffect(() => {
+    if(form.formState.isSubmitSuccessful) {
+      toast.success('メール送信に成功しました');
+    }
+  },[form.formState.isSubmitSuccessful])
+
   return (
     <Form {...form}>
+      <ToastContainer />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="container flex flex-col gap-3 mx-auto"
