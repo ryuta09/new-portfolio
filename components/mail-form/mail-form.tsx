@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { ClipLoader } from "react-spinners";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
@@ -15,13 +16,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "@/lib/formSchema";
 import { Textarea } from "../ui/textarea";
 import useMailForm from "@/hooks/useMailForm";
-
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from "react";
+import 'react-toastify/dist/ReactToastify.css';
 export default function MailForm() {
+  const { form, onSubmit } = useMailForm();
 
-  const {form, onSubmit} = useMailForm()
+  useEffect(() => {
+    if(form.formState.isSubmitSuccessful) {
+      toast.success('メール送信に成功しました');
+    }
+  },[form.formState.isSubmitSuccessful])
 
   return (
     <Form {...form}>
+      <ToastContainer />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="container flex flex-col gap-3 mx-auto"
@@ -83,7 +92,26 @@ export default function MailForm() {
             </FormItem>
           )}
         />
-        <Button>送信</Button>
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field: { value,onChange, ...filedProps } }) => (
+            <FormItem>
+              <FormLabel>添付画像</FormLabel>
+              <FormControl>
+                <Input
+                  accept="image/*"
+                  type="file"
+                  placeholder="主題"
+                  onChange={(e) => onChange(e.target.files)}
+                  {...filedProps}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <ClipLoader /> : "送信" }</Button>
       </form>
     </Form>
   );
