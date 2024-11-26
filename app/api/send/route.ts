@@ -14,9 +14,8 @@ export async function POST(request: Request) {
   const content = formData.get("content") as string
   const file = formData.get("file") as File
 
-  console.log(username, email, subject, content, file)
-
-
+  const buffer = Buffer.from(await file.arrayBuffer()); // バイナリデータをバッファーオブジェクトに変換
+  
   try {
     const { data, error } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
@@ -27,7 +26,7 @@ export async function POST(request: Request) {
         email,
         content,
       }) as React.ReactElement,
-      attachments: [{ filename: file.name, content: file }], // これでファイルを添付できる
+      attachments: [{ filename: file.name, content: buffer }], // これでファイルを添付できる
     });
     return NextResponse.json({ data });
   } catch (error) {
